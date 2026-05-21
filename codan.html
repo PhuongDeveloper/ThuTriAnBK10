@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Thư Tri Ân Thầy Cô – Lớp 12BK10</title>
+  
+  <!-- Fonts: Playfair (Sang trọng), Dancing Script (Bay bổng), Lora (Dễ đọc), Inter (Hiện đại) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       VARIABLES & RESET
+       ========================================================================== */
+    :root {
+      --cream-light: #FFFCF8;
+      --cream-base: #F9EFE4;
+      --gold-light: #E8D3A2;
+      --gold-main: #C9A855;
+      --gold-dark: #9B7E35;
+      --brown-text: #4A3B32;
+      --brown-muted: #826E5D;
+      --wax-red: #B53232;
+      --pink-glow: #FCE8E8;
+    }
+    
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--cream-base);
+      color: var(--brown-text);
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ==========================================================================
+       BACKGROUND (MOBILE FIRST)
+       ========================================================================== */
+    .bg-canvas {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: -2;
+      background: var(--cream-light);
+      background-image: 
+        radial-gradient(circle at 10% 10%, var(--pink-glow) 0%, transparent 50%),
+        radial-gradient(circle at 90% 90%, rgba(201, 168, 85, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 50% 50%, var(--cream-light) 0%, var(--cream-base) 100%);
+    }
+
+    .bg-noise {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: -1;
+      opacity: 0.35;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    #particles {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ==========================================================================
+       SOUND BUTTON
+       ========================================================================== */
+    .sound-btn {
+      position: fixed;
+      top: 20px; right: 20px;
+      z-index: 100;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--gold-light);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold-dark);
+      box-shadow: 0 4px 12px rgba(201, 168, 85, 0.15);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .sound-btn svg { width: 22px; height: 22px; fill: currentColor; }
+
+    /* ==========================================================================
+       HERO SECTION (MOBILE OPTIMIZED)
+       ========================================================================== */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    .hero-frame {
+      position: absolute;
+      top: 15px; bottom: 15px; left: 15px; right: 15px;
+      border: 1px solid rgba(201, 168, 85, 0.35);
+      border-radius: 16px;
+      pointer-events: none;
+      z-index: -1;
+    }
+    /* Góc trang trí của khung */
+    .hero-frame::before, .hero-frame::after {
+      content: '';
+      position: absolute;
+      width: 30px; height: 30px;
+      border: 1px solid var(--gold-main);
+    }
+    .hero-frame::before { top: -5px; left: -5px; border-right: none; border-bottom: none; }
+    .hero-frame::after { bottom: -5px; right: -5px; border-left: none; border-top: none; }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 500px;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--gold-dark);
+      margin-bottom: 24px;
+      padding: 6px 16px;
+      border: 1px solid var(--gold-light);
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 12vw, 4.5rem);
+      font-weight: 600;
+      color: var(--brown-text);
+      line-height: 1;
+      margin-bottom: 0px;
+    }
+
+    .hero-subtitle {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(4rem, 15vw, 5.5rem);
+      color: var(--gold-main);
+      line-height: 0.7;
+      margin-bottom: 35px;
+      transform: rotate(-4deg);
+      text-shadow: 0 4px 15px rgba(201, 168, 85, 0.25);
+    }
+
+    .hero-desc {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      color: var(--brown-muted);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      padding: 0 15px;
+    }
+
+    .open-btn {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--gold-main), var(--gold-dark));
+      color: #fff;
+      border: none;
+      padding: 16px 40px;
+      border-radius: 30px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      box-shadow: 0 8px 25px rgba(201, 168, 85, 0.4);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .open-btn:active {
+      transform: scale(0.96);
+    }
+    
+    .open-btn svg {
+      width: 18px; height: 18px; fill: currentColor;
+      animation: bounce 2s infinite;
+    }
+
+    /* ==========================================================================
+       LETTERS SECTION
+       ========================================================================== */
+    .letters-container {
+      position: relative;
+      z-index: 1;
+      padding: 20px 20px 100px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .letter-card {
+      position: relative;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 65px 24px 35px; /* Top padding clears avatar */
+      margin-top: 80px; /* Space for overlapping avatar */
+      margin-bottom: 40px;
+      box-shadow: 0 15px 35px rgba(74, 59, 50, 0.08);
+      border: 1px solid rgba(201, 168, 85, 0.1);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    
+    .letter-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Avatar Overlapping Design (Best for Mobile) */
+    .avatar-wrapper {
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: var(--cream-base);
+      border: 4px solid #ffffff;
+      box-shadow: 0 10px 25px rgba(74, 59, 50, 0.15);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      z-index: 2;
+    }
+    .avatar-wrapper img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .avatar-placeholder {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: var(--gold-main);
+    }
+
+    /* Wax Seal */
+    .wax-seal {
+      position: absolute;
+      top: 25px; right: 20px;
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #D84B4B, var(--wax-red), #6B1717);
+      box-shadow: 
+        0 4px 10px rgba(181, 50, 50, 0.35),
+        inset 0 2px 4px rgba(255,255,255,0.25),
+        inset 0 -2px 4px rgba(0,0,0,0.2);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.9);
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+      z-index: 2;
+    }
+    .wax-seal::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px; right: 3px; bottom: 3px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    /* Card Content Styling */
+    .letter-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--brown-text);
+      text-align: center;
+      margin-bottom: 10px;
+      padding: 0 35px; /* Space for seal */
+    }
+
+    .letter-greeting {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--brown-muted);
+      text-align: center;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px dashed rgba(201, 168, 85, 0.3);
+    }
+
+    /* Interactive Letter Body */
+    .letter-body-wrapper {
+      position: relative;
+      min-height: 150px;
+    }
+
+    .letter-body {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--brown-text);
+    }
+    
+    .letter-body p {
+      margin-bottom: 16px;
+      text-align: justify;
+    }
+    .letter-body p:first-letter {
+        padding-left: 1.5rem;
+    }
+
+    /* The glowing "Tap to Open" overlay */
+    .tap-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: opacity 0.4s, visibility 0.4s;
+      z-index: 3;
+    }
+    
+    .pulse-ring {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: rgba(201, 168, 85, 0.1);
+      display: flex; align-items: center; justify-content: center;
+      animation: pulse-ring 2s infinite;
+      margin-bottom: 12px;
+    }
+    
+    .pulse-ring svg {
+      width: 26px; height: 26px;
+      fill: var(--gold-main);
+    }
+    
+    .tap-overlay span {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gold-dark);
+      font-weight: 500;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2px; height: 1em;
+      background: var(--gold-main);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 0.8s step-end infinite;
+    }
+
+    .letter-signature {
+      margin-top: 35px;
+      text-align: right;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+    .letter-signature.show { opacity: 1; }
+    
+    .sig-line {
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      color: var(--brown-muted);
+      margin-bottom: 5px;
+    }
+    .sig-name {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.2rem;
+      color: var(--brown-text);
+    }
+
+    /* ==========================================================================
+       FOOTER
+       ========================================================================== */
+    .footer {
+      text-align: center;
+      padding: 0 20px 40px;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--brown-text);
+      margin-bottom: 15px;
+    }
+    .footer-credit {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: var(--brown-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ==========================================================================
+       ANIMATIONS
+       ========================================================================== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    }
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(201, 168, 85, 0.5); }
+      70% { box-shadow: 0 0 0 15px rgba(201, 168, 85, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(201, 168, 85, 0); }
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ==========================================================================
+       DESKTOP ENHANCEMENTS
+       ========================================================================== */
+    @media (min-width: 768px) {
+      .letters-container { max-width: 800px; padding: 60px 20px 100px; }
+      .letter-card { padding: 75px 50px 45px; margin-top: 90px; }
+      .avatar-wrapper { width: 120px; height: 120px; top: -60px; }
+      .hero-title { font-size: 5rem; }
+      .hero-subtitle { font-size: 6.5rem; }
+      .letter-body p { font-size: 1.15rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Backgrounds -->
+  <div class="bg-canvas"></div>
+  <div class="bg-noise"></div>
+  <canvas id="particles"></canvas>
+
+  <!-- Sound Toggle -->
+  <button class="sound-btn" id="soundToggle" aria-label="Bật/tắt âm thanh">
+    <svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+  </button>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-frame"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Tập thể 12BK10</div>
+      <h1 class="hero-title">Thư Tri Ân</h1>
+      <h2 class="hero-subtitle">Thầy Cô</h2>
+      <p class="hero-desc">Một góc lưu bút nhỏ, gói trọn biết bao tình cảm và sự trân trọng chân thành nhất trước lúc chia xa.</p>
+      
+      <button class="open-btn" id="openBtn">
+        <span>Mở Lưu Bút</span>
+        <svg viewBox="0 0 24 24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Letters Section -->
+  <main class="letters-container" id="lettersContainer">
+    <!-- Letters injected by JS -->
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="footer-quote">"Cảm ơn thầy cô vì đã là một phần đẹp đẽ trong thanh xuân của chúng em."</p>
+    <div class="footer-credit">© 2026 Kỷ Yếu Số 12BK10</div>
+  </footer>
+
+  <script>
+    // ============================================================
+    //  DỮ LIỆU
+    // ============================================================
+    const LETTERS_DATA = [
+      {
+        title: "Thư gửi cô Hoàng Thị Dần",
+        greeting: "Kính gửi: cô Dần kính mến!",
+        image: "codan.jpg",
+        content: `Khi những ngày cuối cùng dưới mái trường dần khép lại, chúng em muốn gửi đến cô những lời tri ân chân thành nhất.
+
+Trong lớp chúng em, có những bạn đã gắn bó với mái trường nội trú từ năm lớp 6 và may mắn được cô chủ nhiệm suốt bốn năm cấp hai. Với các bạn ấy, cô không chỉ là người dạy kiến thức mà còn là người đã đồng hành, dìu dắt qua những năm tháng đầu tiên đầy bỡ ngỡ.
+
+Rồi khi bước lên cấp ba, dù không còn được cô trực tiếp giảng dạy, nhưng những tình cảm và bài học cô dành cho chúng em vẫn luôn còn đó. Có lẽ vì thế mà mỗi khi nhắc đến cô, trong lòng chúng em luôn là sự yêu thương và biết ơn.
+
+Còn những thành viên đến với mái trường từ năm lớp 10, dù không có cơ hội đồng hành cùng cô từ những ngày đầu, nhưng qua những câu chuyện và sự quan tâm cô dành cho học sinh, chúng em đều cảm nhận được sự tận tụy và ấm áp nơi cô.
+
+Là học sinh nội trú, sống xa gia đình, chúng em càng thấu hiểu và trân trọng hơn những tình cảm thầy cô dành cho mình. Với chúng em, cô không chỉ dạy những bài học trên lớp mà còn để lại những bài học đẹp về sự tận tâm và yêu thương.
+
+Giờ đây, khi sắp phải rời xa mái trường thân yêu, chúng em muốn gửi đến cô lời cảm ơn chân thành nhất. Cảm ơn cô vì đã là một phần đẹp đẽ trong hành trình trưởng thành của chúng em.
+
+Chúng em kính chúc cô luôn mạnh khỏe, hạnh phúc và giữ mãi ngọn lửa nhiệt huyết với nghề.
+
+Chúng em sẽ luôn nhớ về cô với tất cả sự trân trọng và biết ơn.`,
+        signature: "Tập thể học sinh lớp 12bk10"
+      }
+    ];
+
+    // ============================================================
+    //  AUDIO (WEB AUDIO API)
+    // ============================================================
+    let audioCtx = null;
+    let isSoundEnabled = false;
+    let lastClickTime = 0;
+
+    const svgSoundOn = '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>';
+    const svgSoundOff = '<svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>';
+
+    document.getElementById('soundToggle').addEventListener('click', function() {
+      isSoundEnabled = !isSoundEnabled;
+      if(isSoundEnabled) {
+        if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if(audioCtx.state === 'suspended') audioCtx.resume();
+      }
+      this.innerHTML = isSoundEnabled ? svgSoundOn : svgSoundOff;
+    });
+
+    function playTypeSound() {
+      if (!isSoundEnabled || !audioCtx) return;
+      const now = performance.now();
+      if (now - lastClickTime < 60) return; 
+      lastClickTime = now;
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800 + Math.random() * 200, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.03);
+      
+      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
+      
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.04);
+    }
+
+    // ============================================================
+    //  RENDER CARDS & LOGIC
+    // ============================================================
+    function getInitials(title, greeting) {
+      const match = greeting.match(/(?:cô|thầy|Cô|Thầy)\s+(\S+)/i) || title.match(/(?:cô|thầy|Cô|Thầy)\s+[\w\sÀ-ỹ]*?(\S+)$/i);
+      return match ? match[1].charAt(0).toUpperCase() : 'T';
+    }
+
+    const container = document.getElementById('lettersContainer');
+    
+    LETTERS_DATA.forEach((letter, index) => {
+      const initials = getInitials(letter.title, letter.greeting);
+      const card = document.createElement('article');
+      card.className = 'letter-card';
+
+      const photoHTML = letter.image && letter.image.trim() !== '' 
+        ? `<img src="${letter.image}" alt="Avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="avatar-placeholder" style="display:none;">${initials}</div>`
+        : `<div class="avatar-placeholder">${initials}</div>`;
+
+      card.innerHTML = `
+        <div class="avatar-wrapper">${photoHTML}</div>
+        <div class="wax-seal">BK10</div>
+        <h3 class="letter-title">${letter.title}</h3>
+        <div class="letter-greeting">${letter.greeting}</div>
+        
+        <div class="letter-body-wrapper">
+          <div class="letter-body"></div>
+          
+          <div class="tap-overlay">
+            <div class="pulse-ring">
+              <svg viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+            </div>
+            <span>Chạm để mở thư</span>
+          </div>
+        </div>
+
+        <div class="letter-signature">
+          <div class="sig-line">Kính thư,</div>
+          <div class="sig-name">${letter.signature}</div>
+        </div>
+      `;
+
+      container.appendChild(card);
+
+      // Typing Logic
+      const overlay = card.querySelector('.tap-overlay');
+      const bodyEl = card.querySelector('.letter-body');
+      const sigEl = card.querySelector('.letter-signature');
+      let isTyping = false;
+
+      overlay.addEventListener('click', () => {
+        if (isTyping) return;
+        isTyping = true;
+        
+        // Hide overlay smoothly
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.style.visibility = 'hidden', 400);
+
+        // Check reduced motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          bodyEl.innerHTML = letter.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+          sigEl.classList.add('show');
+          return;
+        }
+
+        const paragraphs = letter.content.split('\n\n');
+        let pIdx = 0; let cIdx = 0; let currentP = null;
+        const cursor = document.createElement('span');
+        cursor.className = 'typing-cursor';
+
+        function typeChar() {
+          if (pIdx >= paragraphs.length) {
+            if(cursor.parentNode) cursor.remove();
+            sigEl.classList.add('show');
+            return;
+          }
+
+          if (cIdx === 0) {
+            currentP = document.createElement('p');
+            bodyEl.appendChild(currentP);
+          }
+
+          const paraText = paragraphs[pIdx];
+          if (cIdx < paraText.length) {
+            currentP.textContent = paraText.substring(0, cIdx + 1);
+            currentP.appendChild(cursor);
+            cIdx++;
+            playTypeSound();
+            
+            // Auto scroll on mobile to keep typing in view
+            if(window.innerWidth <= 768) {
+              const rect = bodyEl.getBoundingClientRect();
+              if(rect.bottom > window.innerHeight - 50) {
+                window.scrollBy({ top: 30, behavior: 'smooth' });
+              }
+            }
+
+            setTimeout(typeChar, Math.random() * 20 + 15);
+          } else {
+            if(cursor.parentNode) cursor.remove();
+            pIdx++; cIdx = 0;
+            setTimeout(typeChar, 400);
+          }
+        }
+        typeChar();
+      });
+    });
+
+    // ============================================================
+    //  SCROLL & PARTICLES
+    // ============================================================
+    document.getElementById('openBtn').addEventListener('click', () => {
+      document.getElementById('lettersContainer').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.letter-card').forEach(c => observer.observe(c));
+
+    // Particle background (Glowing dust)
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particlesArray = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedY = Math.random() * 0.5 + 0.1;
+        this.opacity = Math.random() * 0.5 + 0.1;
+      }
+      update() {
+        this.y -= this.speedY;
+        if (this.y < 0) {
+          this.y = canvas.height;
+          this.x = Math.random() * canvas.width;
+        }
+      }
+      draw() {
+        ctx.fillStyle = `rgba(201, 168, 85, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particlesArray = [];
+      const num = window.innerWidth < 768 ? 30 : 60;
+      for (let i = 0; i < num; i++) particlesArray.push(new Particle());
+    }
+    
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+        particlesArray[i].draw();
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    
+    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      initParticles();
+      animateParticles();
+    }
+  </script>
+</body>
+</html>
